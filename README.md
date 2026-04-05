@@ -206,3 +206,40 @@ The platform uses **Google Firebase Firestore** as the cloud database for storin
 ---
 
 ## Project Structure
+
+Cloud-Based-Predictive-Analytics-System-for-Business-Intelligence
+│
+├── dashboard/                     # Streamlit dashboard UI
+│   ├── home.py                    # Executive overview dashboard
+│   ├── forecasting.py             # Revenue forecasting module
+│   ├── customers.py               # Customer analytics & segmentation
+│   ├── products.py                # Product intelligence dashboard
+│   ├── anomalies.py               # Anomaly detection module
+│   └── upload_data.py             # Dataset upload interface
+│
+├── python_backend/                # Python analytics engine
+│   ├── data_processing.py         # Data cleaning & preprocessing
+│   ├── forecasting_model.py       # Revenue prediction logic
+│   ├── customer_segmentation.py   # RFM analysis & customer segmentation
+│   ├── anomaly_detection.py       # Statistical anomaly detection
+│   └── utils.py                   # Helper functions
+│
+├── firebase/                      # Firebase cloud integration
+│   ├── firebase_config.js         # Firebase configuration
+│   ├── firestore.rules            # Database security rules
+│   └── firestore.indexes.json     # Firestore indexes
+│
+├── screenshots/                   # Dashboard screenshots for README
+│   ├── home.png
+│   ├── revenue.png
+│   ├── customer1.png
+│   ├── customer2.png
+│   ├── product.png
+│   ├── anomaly.png
+│   ├── dataset_upload.png
+│   └── firebase.png
+│
+├── .gitignore                     # Git ignored files
+├── requirements.txt               # Python dependencies
+├── LICENSE                        # MIT license
+└── README.md                      # Project documentation
