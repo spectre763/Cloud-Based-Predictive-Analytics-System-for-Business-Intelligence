@@ -126,6 +126,69 @@ Real-time Data Retrieval & Visualization
 This architecture enables scalable and real-time analytics processing.
 
 ---
+# Dashboard Preview
+
+## Executive Overview Dashboard
+
+![Executive Dashboard](screenshots/home.png)
+
+This dashboard provides a high-level overview of business performance including revenue, profit, margin, CAC, churn rate, and NPS with real-time visualization of business metrics.
+
+---
+
+## Revenue Forecasting
+
+![Revenue Forecasting](screenshots/revenue.png)
+
+The forecasting module predicts future revenue trends using historical data. It includes scenario analysis (base, optimistic, pessimistic) and confidence intervals to support strategic planning.
+
+---
+
+## Customer Analytics & Segmentation
+
+### Customer Insights
+
+![Customer Analytics](screenshots/customer1.png)
+
+This module analyzes customer behavior using RFM metrics (Recency, Frequency, Monetary) and provides churn probability analysis.
+
+### Cohort & LTV Analysis
+
+![Customer Segmentation](screenshots/customer2.png)
+
+Advanced customer analytics including cohort retention heatmaps and customer lifetime value distribution across segments.
+
+---
+
+## Product Intelligence
+
+![Product Analytics](screenshots/product.png)
+
+Product performance analytics including revenue treemaps, category breakdowns, and growth-share matrix visualization.
+
+---
+
+## Anomaly Detection
+
+![Anomaly Detection](screenshots/anomaly.png)
+
+Statistical anomaly detection identifies unusual patterns in revenue, churn, and other business metrics to help detect risks and unexpected changes.
+
+---
+
+## Dataset Upload (Cloud Integration)
+
+![Dataset Upload](screenshots/dataset_upload.png)
+
+Users can upload CSV datasets directly through the dashboard which automatically syncs with the Firebase cloud database.
+
+---
+
+## Firebase Cloud Database
+
+![Firebase Firestore](screenshots/firebase.png)
+
+The platform uses **Google Firebase Firestore** as the cloud database for storing customer, sales, and product data, enabling real-time analytics and scalable cloud infrastructure.
 
 ## Technology Stack
 
