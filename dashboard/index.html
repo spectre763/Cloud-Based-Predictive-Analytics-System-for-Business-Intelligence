@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cloud-Based Predictive Analytics System for Business Intelligence</title>
+  <meta name="description" content="Cloud-based predictive analytics and business intelligence platform"/>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ── Loading Overlay ───────────────────────────────────────────────────── -->
+<div class="spinner-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="spinner-text">Loading Cloud BI Analytics…</div>
+</div>
+
+<!-- ── App Shell ─────────────────────────────────────────────────────────── -->
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">📊 Cloud BI System</div>
+      <div class="brand-sub">Cloud-Based Predictive Analytics System for Business Intelligence</div>
+    </div>
+
+    <div class="sidebar-section-label">Main Menu</div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-item active" data-page="overview"    id="nav-overview">
+        <span class="nav-icon">🏠</span> Overview
+      </div>
+      <div class="nav-item" data-page="forecasting" id="nav-forecasting">
+        <span class="nav-icon">📈</span> Forecasting
+      </div>
+      <div class="nav-item" data-page="customers"   id="nav-customers">
+        <span class="nav-icon">👥</span> Customers
+      </div>
+      <div class="nav-item" data-page="products"    id="nav-products">
+        <span class="nav-icon">🏪</span> Products
+      </div>
+      <div class="nav-item" data-page="anomalies"   id="nav-anomalies">
+        <span class="nav-icon">⚠️</span> Anomalies
+        <span class="nav-badge" id="anomalyBadge">0</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar" id="userAvatar">NU</div>
+        <div>
+          <div class="user-name"  id="userName">Cloud BI User</div>
+          <div class="user-role">Analytics Admin</div>
+        </div>
+        <button class="logout-btn" id="logoutBtn" title="Logout">⎋</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+
+    <!-- Header -->
+    <header class="top-header">
+      <div>
+        <div class="header-title" id="headerTitle">Executive Overview</div>
+        <div class="header-subtitle" id="headerSubtitle">Real-time business performance</div>
+      </div>
+      <div class="header-actions">
+        <div class="live-badge"><div class="live-dot"></div> Live</div>
+        <button class="header-btn" id="refreshBtn">🔄 Refresh</button>
+        <button class="header-btn primary" id="exportBtn">⬇ Export</button>
+      </div>
+    </header>
+
+    <!-- Pages -->
+    <div class="page-content">
+
+      <!-- ═══════════════════════ OVERVIEW ════════════════════════════════ -->
+      <section class="page-section active" id="page-overview">
+        <div class="page-header">
+          <h1 class="page-title">Executive Overview</h1>
+          <p class="page-desc">Real-time KPIs, revenue trend, and activity feed</p>
+        </div>
+
+        <!-- KPI Row -->
+        <div class="grid-6" style="margin-bottom:20px" id="kpiGrid">
+          <!-- dynamically populated -->
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid-2" style="margin-bottom:20px">
+          <div class="card col-span-2" style="grid-column:1/2">
+            <div class="card-title">Revenue & Profit Trend</div>
+            <div class="chart-wrap" style="height:300px">
+              <canvas id="revenueTrendChart"></canvas>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <!-- NPS gauge -->
+            <div class="card">
+              <div class="card-title">NPS Score</div>
+              <div class="chart-wrap" style="height:180px">
+                <canvas id="npsGaugeChart"></canvas>
+              </div>
+            </div>
+            <!-- Churn trend -->
+            <div class="card">
+              <div class="card-title">Churn & CAC Trend</div>
+              <div class="chart-wrap" style="height:140px">
+                <canvas id="churnTrendChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity feed -->
+        <div class="card">
+          <div class="section-header">
+            <span class="section-title">🔔 Recent Activity</span>
+            <span style="font-size:0.72rem;color:var(--text-muted)">Last 30 events</span>
+          </div>
+          <div class="grid-3" id="activityGrid">
+            <!-- dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ FORECASTING ═════════════════════════════ -->
+      <section class="page-section" id="page-forecasting">
+        <div class="page-header">
+          <h1 class="page-title">Revenue Forecasting</h1>
+          <p class="page-desc">ML-driven multi-scenario forecasts with confidence intervals</p>
+        </div>
+
+        <!-- Controls -->
+        <div class="filter-bar">
+          <label class="toggle-wrap">
+            <label class="toggle">
+              <input type="checkbox" id="toggleCI" checked/>
+              <div class="toggle-slider"></div>
+            </label>
+            Show Confidence Band
+          </label>
+          <div class="tabs" id="scenarioTabs">
+            <button class="tab-btn" data-scene="pessimistic">Pessimistic</button>
+            <button class="tab-btn active" data-scene="base">Base</button>
+            <button class="tab-btn" data-scene="optimistic">Optimistic</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-title">30-Month Revenue Trend + 6-Month Forecast</div>
+          <div class="chart-wrap" style="height:360px">
+            <canvas id="forecastChart"></canvas>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Scenario summary -->
+          <div class="card">
+            <div class="card-title">Scenario Summary</div>
+            <table class="data-table" id="scenarioTable">
+              <thead>
+                <tr>
+                  <th>Scenario</th><th>6-Mo Total</th><th>Avg/Month</th><th>vs Base</th>
+                </tr>
+              </thead>
+              <tbody id="scenarioTableBody"></tbody>
+            </table>
+          </div>
+          <!-- Feature importance -->
+          <div class="card">
+            <div class="card-title">Feature Importance (Revenue Drivers)</div>
+            <div class="chart-wrap" style="height:220px">
+              <canvas id="featureImportanceChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ CUSTOMERS ══════════════════════════════ -->
+      <section class="page-section" id="page-customers">
+        <div class="page-header">
+          <h1 class="page-title">Customer Analytics</h1>
+          <p class="page-desc">RFM segmentation, cohort retention, and LTV analysis</p>
+        </div>
+
+        <!-- Segment count cards -->
+        <div class="grid-5" id="segmentCards"
+             style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px">
+        </div>
+
+        <div class="grid-2" style="margin-bottom:20px">
+          <!-- Segment donut -->
+          <div class="card">
+            <div class="card-title">Customer Segment Mix</div>
+            <div class="chart-wrap" style="height:250px">
+              <canvas id="segmentDonutChart"></canvas>
+            </div>
+          </div>
+          <!-- Churn gauge + stats -->
+          <div class="card">
+            <div class="card-title">Avg Churn Probability</div>
+            <div id="churnGaugeWrap" style="text-align:center;padding:16px 0">
+              <div id="churnGaugeVal" style="font-size:3rem;font-weight:900;color:#F43F5E;">—</div>
+              <div style="font-size:0.78rem;color:var(--text-muted);margin-top:4px;">Overall Churn Risk</div>
+              <div style="margin-top:16px" id="segChurnRows"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cohort heatmap -->
+        <div class="card" style="margin-bottom:20px;overflow-x:auto">
+          <div class="card-title">Cohort Retention Heatmap (%)</div>
+          <div id="cohortTableWrap" style="overflow-x:auto"></div>
+        </div>
+
+        <!-- Top customers table -->
+        <div class="card">
+          <div class="card-title">Top Customers by LTV</div>
+          <table class="data-table" id="topCustomersTable">
+            <thead>
+              <tr>
+                <th>#</th><th>Segment</th><th>LTV</th><th>Recency</th>
+                <th>Frequency</th><th>Monetary</th><th>Churn Risk</th>
+              </tr>
+            </thead>
+            <tbody id="topCustomersBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ PRODUCTS ════════════════════════════════ -->
+      <section class="page-section" id="page-products">
+        <div class="page-header">
+          <h1 class="page-title">Product Intelligence</h1>
+          <p class="page-desc">Revenue mix, growth–share matrix, and top performers</p>
+        </div>
+
+        <div class="filter-bar">
+          <select class="filter-select" id="prodCategoryFilter">
+            <option value="All">All Categories</option>
+          </select>
+        </div>
+
+        <div class="grid-2" style="margin-bottom:20px">
+          <div class="card">
+            <div class="card-title">Revenue by Category</div>
+            <div class="chart-wrap" style="height:280px">
+              <canvas id="categoryBarChart"></canvas>
+            </div>
+          </div>
+          <div class="card" style="overflow-x:auto">
+            <div class="card-title">Top Products by Revenue</div>
+            <table class="data-table" id="topProductsTable">
+              <thead>
+                <tr><th>#</th><th>Product</th><th>Category</th><th>Revenue</th><th>Growth</th><th>Rating</th></tr>
+              </thead>
+              <tbody id="topProductsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Product Summary Statistics</div>
+          <div class="grid-4" id="productSummaryGrid"
+               style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════ ANOMALIES ═══════════════════════════════ -->
+      <section class="page-section" id="page-anomalies">
+        <div class="page-header">
+          <h1 class="page-title">Anomaly Detection</h1>
+          <p class="page-desc">Statistical outlier analysis across all business metrics</p>
+        </div>
+
+        <!-- Severity summary -->
+        <div class="grid-4" id="anomalySummaryGrid"
+             style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+        </div>
+
+        <!-- Anomaly chart -->
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-title">Revenue Anomaly Detection</div>
+          <div class="chart-wrap" style="height:320px">
+            <canvas id="anomalyChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Alert cards -->
+        <div class="section-header">
+          <span class="section-title">🔔 Active Alerts</span>
+          <span style="font-size:0.72rem;color:var(--text-muted)" id="alertCount"></span>
+        </div>
+        <div class="grid-2" id="alertCardsGrid"></div>
+
+        <!-- Resolved -->
+        <div style="margin-top:20px">
+          <details>
+            <summary style="cursor:pointer;font-size:0.85rem;font-weight:600;color:var(--text-secondary);
+                            padding:10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+              ✅ Resolved Anomalies
+            </summary>
+            <table class="data-table" id="resolvedTable" style="margin-top:12px">
+              <thead>
+                <tr><th>Metric</th><th>Month</th><th>Observed</th><th>Expected</th><th>Z-Score</th><th>Severity</th></tr>
+              </thead>
+              <tbody id="resolvedTableBody"></tbody>
+            </table>
+          </details>
+        </div>
+      </section>
+
+    </div><!-- /page-content -->
+  </div><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

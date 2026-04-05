@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cloud-Based Predictive Analytics System for Business Intelligence — Login</title>
+  <meta name="description" content="Sign in to Cloud-Based Predictive Analytics System for Business Intelligence"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="login-logo">
+      <div class="login-logo-text">📊 Cloud BI System</div>
+      <div class="login-subtitle">Cloud-Based Predictive Analytics System for Business Intelligence</div>
+    </div>
+
+    <div class="login-title">Welcome back</div>
+
+    <form id="loginForm" autocomplete="on">
+      <div class="form-group">
+        <label class="form-label" for="emailInput">Email address</label>
+        <input id="emailInput" class="form-input" type="email"
+               placeholder="you@company.com" required autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="passInput">Password</label>
+        <input id="passInput" class="form-input" type="password"
+               placeholder="••••••••" required autocomplete="current-password"/>
+      </div>
+      <button id="loginBtn" class="login-btn" type="submit">Sign In</button>
+    </form>
+
+    <div class="divider">or continue with</div>
+
+    <button id="googleBtn" class="google-btn">
+      <svg width="18" height="18" viewBox="0 0 48 48">
+        <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6 8-11.3 8A12 12 0 0124 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7A20 20 0 1044 24c0-1.2-.1-2.4-.4-3.5z"/>
+        <path fill="#FF3D00" d="m6.3 14.7 6.6 4.8A12 12 0 0124 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7A20 20 0 006.3 14.7z"/>
+        <path fill="#4CAF50" d="M24 44a19.9 19.9 0 0013.4-5.2l-6.2-5.2A12 12 0 0124 36c-5.2 0-9.7-3.4-11.3-8l-6.6 4.9A20 20 0 0024 44z"/>
+        <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3a12 12 0 01-4.6 5.6l6.2 5.2C36.9 40.8 44 35.3 44 24c0-1.2-.1-2.4-.4-3.5z"/>
+      </svg>
+      Sign in with Google
+    </button>
+
+    <div id="loginError" class="login-error"></div>
+
+    <p style="text-align:center;margin-top:20px;font-size:0.72rem;color:var(--text-muted)">
+      Demo mode: any credentials • Firebase Auth required for production
+    </p>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp }           from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getAuth,
+           signInWithEmailAndPassword,
+           GoogleAuthProvider,
+           signInWithPopup,
+           onAuthStateChanged }      from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+  import { firebaseConfig }          from "./firebase-config.js";
+
+  let auth;
+  const isDemo = firebaseConfig.apiKey === "YOUR_API_KEY";
+
+  if (!isDemo) {
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    onAuthStateChanged(auth, user => {
+      if (user) window.location.href = "index.html";
+    });
+  }
+
+  const loginForm  = document.getElementById("loginForm");
+  const loginBtn   = document.getElementById("loginBtn");
+  const googleBtn  = document.getElementById("googleBtn");
+  const errorDiv   = document.getElementById("loginError");
+
+  function showError(msg) {
+    errorDiv.textContent = msg;
+    errorDiv.classList.add("show");
+  }
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("emailInput").value;
+    const pass  = document.getElementById("passInput").value;
+
+    if (isDemo) {
+      // Demo mode — skip auth, go straight to dashboard
+      localStorage.setItem("nexusbi_demo_user", JSON.stringify({ email, name: "Demo User" }));
+      window.location.href = "index.html";
+      return;
+    }
+
+    loginBtn.textContent = "Signing in…";
+    loginBtn.disabled = true;
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      window.location.href = "index.html";
+    } catch (err) {
+      showError(err.message.replace("Firebase: ", ""));
+      loginBtn.textContent = "Sign In";
+      loginBtn.disabled = false;
+    }
+  });
+
+  googleBtn.addEventListener("click", async () => {
+    if (isDemo) {
+      localStorage.setItem("nexusbi_demo_user", JSON.stringify({ email: "demo@nexusbi.io", name: "Demo User" }));
+      window.location.href = "index.html";
+      return;
+    }
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      window.location.href = "index.html";
+    } catch (err) {
+      showError(err.message.replace("Firebase: ", ""));
+    }
+  });
+</script>
+</body>
+</html>
